@@ -1,7 +1,5 @@
 # rails-translate-routes
 
-**Important change July 2012**: rails-translate-routes now also support Rails 4
-
 **Important change from version 0.0.5 (Feb 2012) to 0.1.0 (June 2012)**: if you're updating from an earlier version take into account that now translations defined in routes.yml are namespaced to avoid conflicts with other translations from app (thanks to cawel for the patch). To upgrade you just have to add the namespace `routes` to your `routes.yml (see example in the below docs).
 
 Rails >=3.1 routes translations based on Raul's translate_routes (https://github.com/raul/translate_routes).
