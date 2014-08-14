@@ -219,8 +219,13 @@ class RailsTranslateRoutes
         end
       end
 
+      # Container in which the untranslated helper_methods should be available
+      route_helper_container = Rails.version >= '4.0' ? [route_set.named_routes.module] : ROUTE_HELPER_CONTAINER
+
       original_named_routes.each_key do |route_name|
-        route_set.named_routes.helpers.concat add_untranslated_helpers_to_controllers_and_views(route_name)
+        route_set.named_routes.helpers.concat(
+          add_untranslated_helpers_to_controllers_and_views(route_name, route_helper_container)
+        )
       end
 
       if root_route = original_named_routes[:root]
@@ -252,11 +257,12 @@ class RailsTranslateRoutes
     #   people_path -> people_fr_path
     # May also be called with explicit :locale option, e.g.
     #   user_path(1, :locale => :en) -> user_en_path(1)
-    def add_untranslated_helpers_to_controllers_and_views old_name
+    def add_untranslated_helpers_to_controllers_and_views old_name, route_helper_container
+
       ['path', 'url'].map do |suffix|
         new_helper_name = "#{old_name}_#{suffix}"
 
-        ROUTE_HELPER_CONTAINER.each do |helper_container|
+        route_helper_container.each do |helper_container|
           helper_container.send :define_method, new_helper_name do |*args|
             options = args.extract_options!
             locale = options.delete(:locale) || I18n.locale
