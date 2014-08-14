@@ -220,14 +220,12 @@ class RailsTranslateRoutes
       end
 
       # Container in which the untranslated helper_methods should be available
-      route_helper_container = ROUTE_HELPER_CONTAINER
-
-      if Rails.version >= '4.0'
-        route_helper_container = [route_set.named_routes.module]
-      end
+      route_helper_container = Rails.version >= '4.0' ? [route_set.named_routes.module] : ROUTE_HELPER_CONTAINER
 
       original_named_routes.each_key do |route_name|
-        route_set.named_routes.helpers.concat add_untranslated_helpers_to_controllers_and_views(route_name, route_helper_container)
+        route_set.named_routes.helpers.concat(
+          add_untranslated_helpers_to_controllers_and_views(route_name, route_helper_container)
+        )
       end
 
       if root_route = original_named_routes[:root]
@@ -259,8 +257,6 @@ class RailsTranslateRoutes
     #   people_path -> people_fr_path
     # May also be called with explicit :locale option, e.g.
     #   user_path(1, :locale => :en) -> user_en_path(1)
-    # Additional param to add custom container to add the
-    # helper method to
     def add_untranslated_helpers_to_controllers_and_views old_name, route_helper_container
 
       ['path', 'url'].map do |suffix|
