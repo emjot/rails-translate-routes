@@ -1,18 +1,20 @@
 # rails-translate-routes
 
-**Important change from version 0.0.5 (Feb 2012) to 0.1.0 (June 2012)**: if you're updating from an earlier version take into account that now translations defined in routes.yml are namespaced to avoid conflicts with other translations from app (thanks to cawel for the patch). To upgrade you just have to add the namespace `routes` to your `routes.yml (see example in the below docs).
+## emjot-stable Branch
 
-Rails >=3.1 routes translations based on Raul's translate_routes (https://github.com/raul/translate_routes).
+This is a fork of francesc/rails-translate-routes with the following additions/bugfixes in the `emjot-stable` branch: 
 
-It's currently a stripped down version of the forked gem, adding some bugfixes for rails 3.1 and features I needed for my project. See doc below to see what it can do.
-
-translate_routes & i18n_routes seems to be unmaintained projects so I decided to start a fork of the first one for my own projects, I can't promise high dedication but I'll try to maintain it for my own use and take care all patches & bugs submitted, help is welcome!
+* (Aug 2014) Rails 4 support (backward compatible with Rails 3)
+* (Apr 2014) Fix: keep mandatory format in translatated routes (without this fix, routes with a mandatory format 
+  (e.g. `events.:format`) lose the `.:format` part during translation)
+* (Apr 2014) Support `:locale` option for untranslated helpers (makes it possible to use e.g. 
+  `root_path(:locale => :fr)`)
 
 ## Installation
 
 Add it to your Gemfile:
 
-    gem 'rails-translate-routes'
+    gem 'rails-translate-routes', :git => 'git://github.com/emjot/rails-translate-routes', :branch => 'emjot-stable'
 
 ## Basic usage
 
@@ -249,18 +251,3 @@ Contributors of forked gem:
   * Marian Theisen (http://github.com/cice)
   * Enric Lluelles (http://github.com/enriclluelles)
   * Jaime Iniesta (http://github.com/jaimeiniesta)
-
-## Similar projects
-
-Another fork of translate_routes, a much cleaner approach with better testing but less flexible than rails-translate-routes:
-
-* route_translator (https://github.com/enriclluelles/route_translator)
-
-Also there are other two projects for translating routes in Rails (which I know of), both of them are unfortunately unmaintained but you may want to check them out if you use old Rails versions or have different needs.
-
-* translate_routes (https://github.com/raul/translate_routes)
-* i18n_routing (https://github.com/kwi/i18n_routing)
-
-## Other i18n related projects
-
-If you also need to translate models check out: https://github.com/francesc/rails-translate-models
