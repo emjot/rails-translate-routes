@@ -429,12 +429,17 @@ ActionController::Base.class_eval do
   end
 end
 
-# Add locale_suffix to controllers, views and mailers
-RailsTranslateRoutes::ROUTE_HELPER_CONTAINER.each do |klass|
-  klass.class_eval do
-    private
-    def locale_suffix locale
-      RailsTranslateRoutes.locale_suffix locale
+module Rails
+  module TranslateRoutes
+    module Helper
+      def self.locale_suffix locale
+        RailsTranslateRoutes.locale_suffix locale
+      end
+      private_class_method :locale_suffix
     end
   end
+end
+
+RailsTranslateRoutes::ROUTE_HELPER_CONTAINER.each do |klass|
+  klass.send :include, Rails::TranslateRoutes::Helper
 end
