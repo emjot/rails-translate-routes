@@ -267,7 +267,7 @@ class RailsTranslateRoutes
             options = args.extract_options!
             locale = options.delete(:locale) || I18n.locale
             args << options if options.present?
-            send "#{old_name}_#{locale_suffix(locale)}_#{suffix}", *args
+            send "#{old_name}_#{RailsTranslateRoutes.locale_suffix(locale)}_#{suffix}", *args
           end
         end
 
@@ -432,10 +432,9 @@ end
 module Rails
   module TranslateRoutes
     module Helper
-      def self.locale_suffix locale
+      def locale_suffix locale
         RailsTranslateRoutes.locale_suffix locale
       end
-      private_class_method :locale_suffix
     end
   end
 end
