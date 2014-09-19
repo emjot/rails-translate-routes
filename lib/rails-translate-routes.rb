@@ -267,7 +267,7 @@ class RailsTranslateRoutes
             options = args.extract_options!
             locale = options.delete(:locale) || I18n.locale
             args << options if options.present?
-            send "#{old_name}_#{locale_suffix(locale)}_#{suffix}", *args
+            send "#{old_name}_#{RailsTranslateRoutes.locale_suffix(locale)}_#{suffix}", *args
           end
         end
 
@@ -429,12 +429,16 @@ ActionController::Base.class_eval do
   end
 end
 
-# Add locale_suffix to controllers, views and mailers
-RailsTranslateRoutes::ROUTE_HELPER_CONTAINER.each do |klass|
-  klass.class_eval do
-    private
-    def locale_suffix locale
-      RailsTranslateRoutes.locale_suffix locale
+module Rails
+  module TranslateRoutes
+    module Helper
+      def locale_suffix locale
+        RailsTranslateRoutes.locale_suffix locale
+      end
     end
   end
+end
+
+RailsTranslateRoutes::ROUTE_HELPER_CONTAINER.each do |klass|
+  klass.send :include, Rails::TranslateRoutes::Helper
 end
