@@ -304,7 +304,7 @@ class RailsTranslateRoutes
         defaults = route.defaults.merge LOCALE_PARAM_KEY => locale
       end
 
-      requirements = route.requirements.merge LOCALE_PARAM_KEY => locale
+      requirements = route.path.requirements.merge LOCALE_PARAM_KEY => locale
       new_name = "#{route.name}_#{locale_suffix(locale)}" if route.name
 
       [route.app, conditions, requirements, defaults, new_name]
@@ -321,7 +321,7 @@ class RailsTranslateRoutes
         conditions[:path_info] = route.path
         conditions[:request_method] = parse_request_methods route.conditions[:request_method] if route.conditions.has_key? :request_method
       end
-      requirements = route.requirements
+      requirements = route.path.requirements
       defaults = route.defaults
 
       [route.app, conditions, requirements, defaults]
