@@ -1,5 +1,9 @@
 # rails-translate-routes
 
+## Deprecated / Unmaintained
+
+This fork is not maintained any more. Have a look at [route_translator](https://github.com/enriclluelles/route_translator) instead.
+
 ## emjot-stable Branch
 
 This is a fork of francesc/rails-translate-routes with the following additions/bugfixes in the `emjot-stable` branch: 
